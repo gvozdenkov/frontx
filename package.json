@@ -1,0 +1,23 @@
+{
+  "name": "rock-frontend-project",
+  "version": "1.0.0",
+  "description": "A project to learn how frontend framework work:)",
+  "private": true,
+  "scripts": {
+    "server:example": "npx http-server . -o ./example"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "framework",
+    "js framework",
+    "javascript framework",
+    "frontend",
+    "frontend framework"
+  ],
+  "author": "arty gvozdenkov",
+  "license": "MIT",
+  "workspaces": [
+    "packages/runtime"
+  ]
+}
