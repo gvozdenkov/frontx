@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="todo.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Todo</title>
+  </head>
+  <body>
+    <header class="header">
+      <h1>My todo</h1>
+      <form class="add-todo-form">
+        <div class="input-wrapper">
+          <label for="todo-input">New todo</label>
+          <input type="text" name="todo" id="todo-input" autocomplete="off" />
+          <span class="input-wrapper__error"></span>
+        </div>
+        <button type="submit" id="add-todo-btn" disabled>Add</button>
+      </form>
+    </header>
+
+    <section class="todo-section">
+      <ul class="todo-list" id="todo-list"></ul>
+    </section>
+  </body>
+</html>

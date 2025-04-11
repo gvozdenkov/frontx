@@ -1,0 +1,163 @@
+/* reset */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+li,
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  row-gap: 3rem;
+  grid-template-columns:
+    [fullbleed-start] minmax(20px, 1fr) [content-start] minmax(270px, 70ch)
+    [content-end] minmax(20px, 1fr) [fullbleed-end];
+  grid-auto-rows: min-content;
+
+  margin: 0;
+  padding: 2rem 0;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  color: #33ff00;
+  min-height: 100dvh;
+  background-color: #202020;
+}
+
+button,
+input {
+  border: 1px solid #33ff00;
+  background-color: transparent;
+  color: #33ff00;
+  box-shadow: 0px 0px 0 0px #33ff00;
+  transition-property: opacity, box-shadow;
+  transition-timing-function: ease-out;
+  transition-duration: 200ms;
+
+  &:focus-visible,
+  &:hover {
+    outline: none;
+    box-shadow: 2px 3px 0 1px #33ff00;
+  }
+}
+
+.input-wrapper {
+  display: grid;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.input-wrapper__error {
+  display: block;
+  position: absolute;
+  bottom: -1.7em;
+  font-size: 13px;
+  color: #ca1f1f;
+  font-weight: 500;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4em 2em;
+  font-size: 1rem;
+  cursor: pointer;
+  block-size: 2rem;
+  transition-property: opacity, box-shadow;
+  transition-timing-function: ease-out;
+  transition-duration: 200ms;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+.button_remove {
+  inline-size: 2rem;
+  padding: 0;
+
+  &::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    display: flex;
+    mask: no-repeat center / contain url(./delete.svg);
+    background-color: #33ff00;
+  }
+}
+
+input {
+  block-size: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.header {
+  grid-column: content;
+
+  display: grid;
+  justify-content: center;
+
+  h1 {
+    text-align: center;
+  }
+
+  padding-block: 2rem;
+  border: 1px solid;
+}
+
+.add-todo-form {
+  display: grid;
+  gap: 0.3rem 0.8rem;
+
+  @media (width >= 450px) {
+    label,
+    input {
+      grid-column: 1;
+    }
+
+    button {
+      grid-column: 2;
+    }
+  }
+
+  > button[type='submit'] {
+    place-self: end;
+  }
+}
+
+.todo-section {
+  grid-column: content;
+}
+
+.todo-list {
+  display: grid;
+  gap: 1rem;
+
+  .todo-list__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &.done > span {
+      text-decoration: line-through;
+    }
+
+    > button:first-of-type {
+      margin-inline-start: auto;
+    }
+  }
+}
