@@ -97,7 +97,7 @@ var prepareChildren = pipe(mapTextNode, withoutNulls);
  * @param {HTML.Attributes<T>} [options.props={}] - HTML element Attributes
  * @param {HTML.EventHandlers} [options.on={}] - Event handlers for the HTML element.
  * @param {Vdom.Children<T>[]} [children=[]] - Array of child nodes, default empty array []
- * @returns {Vdom.Node<T>}
+ * @returns {Vdom.ElementNode<T>}
  */
 export var h = (tag, options, children) => ({
   type: 'element',
