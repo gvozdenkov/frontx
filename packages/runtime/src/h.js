@@ -1,65 +1,28 @@
 'use strict';
+
+import { pipe } from './utils/pipe';
+
 /**
  * @namespace HTML
  */
 
 /**
- * Represents all valid and not deprecated HTML tag names.
+ * Represents all valid HTML tag names
  *
- * @typedef {'a' | 'b' | 'div' | 'span' | 'img' | 'button' | 'input' |
- * 'textarea' | 'form' | 'header' | 'footer' | 'main' | 'article' |
- * 'section' | 'nav' | 'aside' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' |
- * 'h6' | 'ul' | 'ol' | 'li' | 'table' | 'thead' | 'tbody' | 'tfoot' |
- * 'tr' | 'th' | 'td' | 'p' | 'blockquote' | 'pre' | 'code' | 'canvas' |
- * 'video' | 'audio' | 'svg' | 'path'} HTML.TagName
+ * @typedef {keyof HTMLElementTagNameMap} HTML.TagName
  */
 
 /**
- * Represents a set of valid attributes for any HTML tag.
+ * Represents an object containing valid event handlers for an HTML element.
  *
- * @typedef {Object} HTML.Attributes
- * @property {string} [id] - The `id` attribute, used to specify a unique identifier for the element.
- * @property {string} [class] - The `class` attribute, used to apply CSS classes.
- * @property {string} [style] - The `style` attribute, for inline CSS styles.
- * @property {boolean} [hidden] - The `hidden` attribute, to hide the element.
- * @property {string} [title] - The `title` attribute, for additional information (often shown as a tooltip).
- * @property {string} [lang] - The `lang` attribute, specifying the language of the element's content.
- * @property {string} [role] - The `role` attribute, defining ARIA roles for accessibility.
- * @property {boolean} [draggable] - The `draggable` attribute, enabling drag-and-drop features.
- * @property {string} [data] - Custom `data-*` attributes for storing custom data.
+ * @typedef {{ [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void }} HTML.EventHandlers
  */
 
 /**
- * Represents the attributes for specific HTML tags.
+ * Represents valid HTML attributes for a specific HTML tag.
  *
- * @typedef {Object} HTML.TagAttributes
- * @property {HTML.Attributes & { href?: string, target?: string }} a - Attributes for the `<a>` tag.
- * @property {HTML.Attributes & { src?: string, alt?: string, width?: number, height?: number }} img - Attributes for the `<img>` tag.
- * @property {HTML.Attributes & { disabled?: boolean, value?: string, type?: string }} input - Attributes for the `<input>` tag.
- * @property {HTML.Attributes & { rows?: number, cols?: number, maxlength?: number, minlength?: number }} textarea - Attributes for the `<textarea>` tag.
- * @property {HTML.Attributes & { action?: string, method?: "get" | "post" }} form - Attributes for the `<form>` tag.
- */
-
-/**
- * Represents an object with event handlers.
- *
- * @typedef {Object} EventHandlers
- * @property {Function} [click] - A function to be executed when the `click` event is triggered.
- * @property {Function} [dblclick] - A function to be executed when the `double click` event is triggered.
- * @property {Function} [input] - A function to be executed when the `input` event is triggered.
- */
-
-/**
- * Represents an object containing event bindings.
- *
- * @typedef {Object} EventBinding
- * @property {EventHandlers} on - An object containing event handler functions.
- */
-
-/**
- * A union type for all possible HTML attributes and Events across tags.
- *
- * @typedef {HTML.Attributes | HTML.TagAttributes | EventBinding} HTML.AllAttributes
+ * @template T
+ * @typedef {T extends HTML.TagName ? Partial<HTMLElementTagNameMap[T]> : never} HTML.Attributes
  */
 
 /**
@@ -75,54 +38,73 @@
 
 /**
  * Defines the structure of a Text vNode
- * @typedef {{ type: 'text', value: string }} Vdom.TextNode
+ * @typedef {{ type: Vdom.NodeType, value: string }} Vdom.TextNode
  */
 
 /**
- * Defines the structure of a Element vNode
- * @typedef {{ type: 'element', tag: HTML.TagName, props?: HTML.AllAttributes, children?: Vdom.Node[] }} Vdom.ElementNode
+ * @template {HTML.TagName} T
+ * @typedef {Object} Vdom.ElementNode
+ * @property {Vdom.NodeType} type - vNode type 'text', 'element', 'fragment'
+ * @property {T} [tag] - A valid HTML tag name.
+ * @property {HTML.Attributes<T> | {}} [props] - An object representing valid HTML attributes
+ * @property {HTML.EventHandlers} [on] - Object containing event handlers for the HTML element
+ * @property {Vdom.Children<T>[]} [children] - Vdom.Node or string (converted to text node)
  */
 
 /**
  * Defines the structure of a Fragment vNode
- * @typedef {{ type: 'fragment', children?: Vdom.Node[] }} Vdom.FragmentNode
+ * @template {HTML.TagName} T
+ * @typedef {{ type: Vdom.NodeType, children?: Vdom.Children<T>[] }} Vdom.FragmentNode
  */
 
 /**
  * Represents a node in the virtual DOM. It can be a TextNode, ElementNode, or FragmentNode.
- * @typedef {Vdom.TextNode | Vdom.ElementNode | Vdom.FragmentNode} Vdom.Node
+ * @template {HTML.TagName} T
+ * @typedef {Vdom.TextNode | Vdom.ElementNode<T> | Vdom.FragmentNode<T>} Vdom.Node
+ */
+
+/**
+ * Represents a type of childeren array.
+ * @template {HTML.TagName} T
+ * @typedef {string | Vdom.Node<T>} Vdom.Children
  */
 
 /**
  * Filter nulls form the array
- *
- * @param {Vdom.Node[]} vNodes
- * @returns {Vdom.Node[]}
+ * @template {HTML.TagName} T
+ * @param {Vdom.Children<T>[]} children - Vdom.Node or string (converted to text node)
+ * @returns {Vdom.Children<T>[]}
  */
-var withoutNulls = (vNodes) => vNodes.filter((vNode) => vNode != null);
+var withoutNulls = (children) => children.filter((child) => child != null);
 
 /**
  * Filter nulls form the array
- *
- * @param {Vdom.Node[]} vNodes
- * @returns {Vdom.Node[]}
+ * @template {HTML.TagName} T
+ * @param {Vdom.Children<T>[]} children - Vdom.Node or string (converted to text node)
+ * @returns {Vdom.Node<T>[]}
  */
-var mapTextNode = (vNodes) =>
-  vNodes.map((vNode) => (vNode.constructor === String ? hText(vNode) : vNode));
+var mapTextNode = (children) =>
+  // @ts-ignore: return type always Vdom.Node, not a string
+  children.map((child) => (child.constructor === String ? hText(child) : child));
+
+var prepareChildren = pipe(mapTextNode, withoutNulls);
 
 /**
  * Create Element vNode
- *
- * @param {HTML.TagName} tag - HTML tag name
- * @param {HTML.AllAttributes} [props={}] - HTML tag props, default empty object {}
- * @param {Vdom.Node[]} [children=[]] - Array of child nodes, default empty array []
- * @returns {Vdom.ElementNode}
+ * @template {HTML.TagName} T
+ * @param {T} tag - HTML tag name
+ * @param {Object} [options] - Options for the element.
+ * @param {HTML.Attributes<T>} [options.props={}] - HTML element Attributes
+ * @param {HTML.EventHandlers} [options.on={}] - Event handlers for the HTML element.
+ * @param {Vdom.Children<T>[]} [children=[]] - Array of child nodes, default empty array []
+ * @returns {Vdom.Node<T>}
  */
-export var h = (tag, props, children) => ({
+export var h = (tag, options, children) => ({
   type: 'element',
   tag,
-  props: props ?? {},
-  children: children?.length ? mapTextNode(withoutNulls(children)) : [],
+  props: options?.props ?? {},
+  on: options?.on ?? {},
+  children: children?.length ? prepareChildren(children) : [],
 });
 
 /**
@@ -138,9 +120,9 @@ export var hText = (value) => ({
 
 /**
  * Create Fragment vNode
- *
- * @param {Vdom.Node[]} vNodes
- * @returns {Vdom.FragmentNode}
+ * @template {HTML.TagName} T
+ * @param {Vdom.Children<T>[]} vNodes
+ * @returns {Vdom.FragmentNode<T>}
  */
 export var hFrag = (vNodes) => ({
   type: 'fragment',
