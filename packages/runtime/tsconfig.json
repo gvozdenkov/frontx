@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom"],
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "declarationDir": "./dist/dts",
+    "rootDir": "src",
+    "strict": true,
+  },
+  "include": ["src/index.js"],
+  "exclude": ["node_modules"]
+}

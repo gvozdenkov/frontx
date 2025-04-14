@@ -1,2 +1,2 @@
-// comment here
-console.log('this will be frontend framework!');
+import { h, hText, hFrag } from './h.js';
+export { h, hText, hFrag };

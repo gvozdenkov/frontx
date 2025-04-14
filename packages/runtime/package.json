@@ -1,12 +1,16 @@
 {
   "name": "rock-frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "frontend framework itself",
   "main": "dist/rock-frontend.js",
   "type": "module",
+  "types": "dist/rock-frontend.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
+    "clean:dts": "rm -rf dist/dts",
     "prepack": "npm run build",
-    "build": "rollup -c",
+    "prebuild": "npm run clean && npx tsc",
+    "build": "rollup -c && npm run clean:dts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "prettier:fix": "prettier src --write",
@@ -14,12 +18,14 @@
     "test": "vitest run"
   },
   "files": [
-    "dist/rock-frontend.js"
+    "dist/rock-frontend.js",
+    "dist/rock-frontend.d.ts"
   ],
   "author": "arty gvozdenkov",
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
@@ -28,7 +34,9 @@
     "prettier": "^3.5.3",
     "rollup": "^4.39.0",
     "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-dts": "^6.2.1",
     "rollup-plugin-filesize": "^10.0.0",
+    "typescript": "5.8.3",
     "vitest": "^3.1.1"
   }
 }
