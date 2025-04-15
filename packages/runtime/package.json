@@ -1,14 +1,14 @@
 {
-  "name": "rock-frontend",
-  "version": "1.0.2",
+  "name": "frontage",
+  "version": "0.0.1",
   "description": "frontend framework itself",
-  "main": "dist/rock-frontend.js",
+  "main": "dist/frontage.js",
   "type": "module",
-  "types": "dist/rock-frontend.d.ts",
+  "types": "dist/frontage.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "clean:dts": "rm -rf dist/dts",
-    "prepack": "npm run build",
+    "prepack": "npm run test && npm run build",
     "prebuild": "npm run clean && npx tsc",
     "build": "rollup -c && npm run clean:dts",
     "lint": "eslint src",
@@ -18,8 +18,8 @@
     "test": "vitest run"
   },
   "files": [
-    "dist/rock-frontend.js",
-    "dist/rock-frontend.d.ts"
+    "dist/frontage.js",
+    "dist/frontage.d.ts"
   ],
   "author": "arty gvozdenkov",
   "license": "MIT",

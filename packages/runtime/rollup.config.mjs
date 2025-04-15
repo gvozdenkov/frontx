@@ -10,7 +10,7 @@ export default [
     plugins: [cleanup()],
     output: [
       {
-        file: 'dist/rock-frontend.js',
+        file: 'dist/frontage.js',
         format: 'esm',
         plugins: [filesize(), terser()],
       },
@@ -21,7 +21,7 @@ export default [
     input: 'dist/dts/index.d.ts',
     output: [
       {
-        file: 'dist/rock-frontend.d.ts',
+        file: 'dist/frontage.d.ts',
         format: 'esm',
       },
     ],
