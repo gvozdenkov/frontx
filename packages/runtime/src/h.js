@@ -87,7 +87,7 @@ var mapTextNode = (children) =>
   // @ts-ignore: return type always Vdom.Node, not a string
   children.map((child) => (child.constructor === String ? hText(child) : child));
 
-var prepareChildren = pipe(mapTextNode, withoutNulls);
+var prepareChildren = pipe(withoutNulls, mapTextNode);
 
 /**
  * Create Element vNode
