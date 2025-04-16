@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { h, hFrag, hText } from '../h.js';
 
 describe('`h` function', () => {
-  it('should use default params for props & children', () => {
+  it('should use default params for options & children', () => {
     var res = h('div');
 
     expect(res).toEqual({
@@ -13,27 +13,38 @@ describe('`h` function', () => {
       children: [],
     });
   });
-  it('should work with fragment', () => {
-    var res = hFrag(['text', h('p', {}, ['p text'])]);
+  it('should map string children to text node', () => {
+    var res = h('div', {}, ['test']);
 
     expect(res).toEqual({
-      type: 'fragment',
+      type: 'element',
+      tag: 'div',
+      props: {},
+      on: {},
       children: [
         {
           type: 'text',
-          value: 'text',
+          value: 'test',
+        },
+      ],
+    });
+  });
+  it('should filter null values in children', () => {
+    var res = h('div', {}, ['test', null, 'test']);
+
+    expect(res).toEqual({
+      type: 'element',
+      tag: 'div',
+      props: {},
+      on: {},
+      children: [
+        {
+          type: 'text',
+          value: 'test',
         },
         {
-          type: 'element',
-          tag: 'p',
-          props: {},
-          on: {},
-          children: [
-            {
-              type: 'text',
-              value: 'p text',
-            },
-          ],
+          type: 'text',
+          value: 'test',
         },
       ],
     });
@@ -77,6 +88,31 @@ describe('`h` function', () => {
             {
               type: 'text',
               value: 'span text',
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it('should work with fragment', () => {
+    var res = hFrag(['text', h('p', {}, ['p text'])]);
+
+    expect(res).toEqual({
+      type: 'fragment',
+      children: [
+        {
+          type: 'text',
+          value: 'text',
+        },
+        {
+          type: 'element',
+          tag: 'p',
+          props: {},
+          on: {},
+          children: [
+            {
+              type: 'text',
+              value: 'p text',
             },
           ],
         },
