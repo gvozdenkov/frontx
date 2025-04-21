@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["node"],
     "moduleResolution": "nodenext",
     "module": "NodeNext",
     "lib": ["es2020", "dom"],
@@ -14,6 +13,6 @@
     "rootDir": "src",
     "strict": true
   },
-  "include": ["src/index.js"],
+  "include": ["src/**/*.js"],
   "exclude": ["node_modules"]
 }
