@@ -54,7 +54,7 @@
 
 /**
  * Represents a type of childeren array.
- * @typedef {string | VNode} ChildrenVNode
+ * @typedef {VNode | string | null | undefined} ChildrenVNode
  */
 
 export {};

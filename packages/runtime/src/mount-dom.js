@@ -1,5 +1,7 @@
 'use strict';
 
+import { setAttributes } from './utils/index.js';
+
 /**
  * @typedef {import('./types.js').HTMLTagName} HTMLTagName
  * @typedef {import('./types.js').VNode} VNode
@@ -52,6 +54,8 @@ export var mountDOM = (vNode, parentEl) => {
     // @ts-ignore: for ElementVNode vNode.tag always exists
     var elementNode = document.createElement(vNode.tag);
     vNode.el = elementNode;
+    // @ts-ignore: for ElementVNode vNode.props always exists
+    // setAttributes(elementNode, vNode.props);
     // @ts-ignore: for ElementVNode children always exists
     vNode?.children?.map((/** @type {VNode} */ vNode) => mountDOM(vNode, elementNode));
     parentEl.append(elementNode);
@@ -62,9 +66,6 @@ export var mountDOM = (vNode, parentEl) => {
     element: createElementNode,
     fragment: createFragmentNode,
   };
-
-  !Object.keys(renderNode).includes(vNode.type) &&
-    new Error(`Can't mount DOM of type: ${vNode.type}`);
 
   return renderNode[vNode.type](vNode, parentEl);
 };

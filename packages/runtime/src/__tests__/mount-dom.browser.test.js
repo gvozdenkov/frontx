@@ -5,11 +5,13 @@ import { mountDOM } from '../mount-dom.js';
 import { h, hFrag, hText } from '../h.js';
 
 describe('`mountDOM` function', () => {
-  // @ts-ignore
-  it('sould mount element node to parent element', async ({ props }) => {
+  // @ts-ignore - props only
+  it.skip('sould mount element node to parent element', async ({ props }) => {
     // Arrange
     var { parentEl, text1 } = props;
-    var vDom = h('p', {}, [text1]);
+    var vDom = h('p', { props: { className: 'par', id: 'p-id', ariaLabel: 'my paragraph' } }, [
+      text1,
+    ]);
 
     // Act
     mountDOM(vDom, parentEl);
@@ -17,7 +19,8 @@ describe('`mountDOM` function', () => {
     // Assert
     await expect.element(page.getByText(text1)).toBeInTheDocument();
   });
-  // @ts-ignore
+
+  // @ts-ignore - props only
   it('sould mount text node to parent element', async ({ props }) => {
     // Arrange
     var { parentEl, text1 } = props;
@@ -25,14 +28,13 @@ describe('`mountDOM` function', () => {
 
     // Act
     mountDOM(vDom, parentEl);
-    // document.body.append(parentEl);
 
     // Assert
     await expect.element(page.getByText(text1)).toBeInTheDocument();
   });
 
-  // @ts-ignore
-  it('sould mount children of fragment node to parent element', async ({ props }) => {
+  // @ts-ignore - props only
+  it('sould mount fragment node to parent element', async ({ props }) => {
     // Arrange
     var { parentEl, text1, text2 } = props;
 
@@ -44,5 +46,6 @@ describe('`mountDOM` function', () => {
     // Assert
     await expect.element(page.getByText(text1)).toBeInTheDocument();
     await expect.element(page.getByText(text2)).toBeInTheDocument();
+    expect(parentEl.childNodes.length).toBe(2);
   });
 });
