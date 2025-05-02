@@ -10,7 +10,7 @@ export default [
     plugins: [cleanup()],
     output: [
       {
-        file: 'dist/frontage.js',
+        file: 'dist/frontx.js',
         format: 'esm',
         plugins: [filesize(), terser()],
       },
@@ -21,7 +21,7 @@ export default [
     input: 'dist/dts/index.d.ts',
     output: [
       {
-        file: 'dist/frontage.d.ts',
+        file: 'dist/frontx.d.ts',
         format: 'esm',
       },
     ],

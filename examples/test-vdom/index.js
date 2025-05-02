@@ -1,4 +1,4 @@
-import { h, hFrag } from 'https://unpkg.com/frontage@0.0.1';
+import { h, hFrag } from 'https://unpkg.com/frontx@0.0.1';
 // import { h, hFrag } from '../../packages/runtime/src/h.js';
 
 var state = ['Walk the dog', 'Write good code', 'Make Yoga', 'Gym 100 times'];

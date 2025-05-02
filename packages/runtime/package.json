@@ -1,10 +1,10 @@
 {
-  "name": "frontage",
+  "name": "frontx",
   "version": "0.0.1",
   "description": "frontend framework itself",
-  "main": "dist/frontage.js",
+  "main": "dist/frontx.js",
   "type": "module",
-  "types": "dist/frontage.d.ts",
+  "types": "dist/frontx.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "clean:dts": "rm -rf dist/dts",
@@ -18,8 +18,8 @@
     "test": "vitest run"
   },
   "files": [
-    "dist/frontage.js",
-    "dist/frontage.d.ts"
+    "dist/frontx.js",
+    "dist/frontx.d.ts"
   ],
   "author": "arty gvozdenkov",
   "license": "MIT",
