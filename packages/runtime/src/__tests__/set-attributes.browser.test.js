@@ -49,7 +49,7 @@ describe('`setAttributes` function', () => {
     await expect.element(targetElLocator).toHaveStyle(style);
   });
   // @ts-ignore - props type
-  it.only('should set other html attributes for element', async ({ props }) => {
+  it('should set other html attributes for element', async ({ props }) => {
     // Arrange
     var { parentEl } = props;
     var targetElLocator = page.getByTestId('parent');
