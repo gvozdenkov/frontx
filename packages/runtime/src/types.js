@@ -7,7 +7,7 @@
 /**
  * Represents an object containing valid event handlers for an HTML element.
  *
- * @typedef {{ [K in keyof HTMLElementEventMap]: (event: HTMLElementEventMap[K]) => void }} HTMLEventHandlers
+ * @typedef {{ [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void }} HTMLEventHandlers
  */
 
 /**
