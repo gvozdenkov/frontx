@@ -7,13 +7,20 @@
 /**
  * Represents an object containing valid event handlers for an HTML element.
  *
- * @typedef {{ [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void }} HTMLEventHandlers
+ * @typedef {{ [K in keyof HTMLElementEventMap]: (event: HTMLElementEventMap[K]) => void }} HTMLEventHandlers
+ */
+
+/**
+ * @typedef {{ [K in keyof CSSStyleDeclaration]?: string }} CamelCasedCSSProperties
  */
 
 /**
  * Represents valid HTML attributes for a specific HTML tag.
  *
- * @typedef {Partial<HTMLElementTagNameMap[HTMLTagName]>} HTMLAttributes
+ * @typedef {Omit<Partial<HTMLElementTagNameMap[HTMLTagName]>, 'className' | 'style'> & {
+ *   className?: string | string[],
+ *   style?: CamelCasedCSSProperties
+ * }} HTMLAttributes
  */
 
 /**

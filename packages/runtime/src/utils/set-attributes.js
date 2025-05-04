@@ -2,6 +2,8 @@
  * @typedef {import('../types.js').HTMLAttributes} HTMLAttributes
  */
 
+import { jsxAttrNameToHtml } from './convertJsxToHtml.js';
+
 /**
  * Set html className, style and other attributes to HTMLElement
  *
@@ -11,5 +13,18 @@
 export var setAttributes = (elementNode, attrs) => {
   var { className, style, ...otherAttr } = attrs;
 
-  className && elementNode.setAttribute('class', className);
+  var isArray = className?.constructor === Array;
+
+  // @ts-ignore - if className is array join is valid method
+  className && elementNode.setAttribute('class', isArray ? className.join(' ') : className);
+
+  style &&
+    Object.entries(style).forEach(([name, value]) =>
+      elementNode.style.setProperty(jsxAttrNameToHtml(name), value ?? null),
+    );
+
+  otherAttr &&
+    Object.entries(otherAttr).forEach(([attr, value]) =>
+      elementNode.setAttribute(jsxAttrNameToHtml(attr), value),
+    );
 };

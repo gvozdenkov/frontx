@@ -8,7 +8,7 @@
  * @param {string} attrName - The JSX attribute name to convert
  * @returns {string} The HTML attribute name
  */
-export var convertJsxAttrToHtml = (attrName) => {
+export var jsxAttrNameToHtml = (attrName) => {
   /**@type  {AttributeMap} */
   var attrMap = {
     className: 'class',
